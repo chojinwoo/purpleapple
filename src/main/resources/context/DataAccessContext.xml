@@ -16,9 +16,9 @@
             <property name="driverClassName" value="#{db['jdbc.driver']}"/>
             <property name="username" value="#{db['jdbc.username']}"/>
             <property name="password" value="#{db['jdbc.password']}"/>
-            <property name="maxActive" value="20"/>
-            <property name="maxIdle" value="10"/>
-            <property name="maxWait" value="-1"/>
+            <property name="maxActive" value="10"/>
+            <property name="maxIdle" value="5"/>
+            <property name="maxWait" value="10000"/>
             <property name="validationQuery" value="select 1 from dual"/>
         </bean>
 
