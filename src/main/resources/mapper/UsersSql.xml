@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+
+    <select id="user" parameterType="java.lang.String" resultType="usersVo">
+        select email
+                ,password
+                ,name
+                ,birthday
+                ,tel
+                ,reg_date
+        from users
+        where email = #{email}
+    </select>
+
+    <select id="auth" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select email
+                ,authority
+        from auth
+        where email = #{email}
+    </select>
+
+    <select id="list" resultType="usersVo">
+        select email
+                ,password
+                ,name
+                ,birthday
+                ,tel
+                ,reg_date
+        from users
+    </select>
+
+    <insert id="register" parameterType="usersVo">
+        insert into users(email
+                ,password
+                ,name
+                ,birthday
+                ,tel)
+        values(
+                #{email},
+                #{password},
+                #{name},
+                #{birthday},
+                #{tel})
+    </insert>
+
+    <insert id="registerAuth" parameterType="java.lang.String">
+        insert into auth(email
+                ,authority)
+        values(#{email}, 'ROLE_USER')
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+        <util:properties id="db" location="classpath:properties/Oracle.properties"/>
+
+
+        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="url" value="#{db['jdbc.url']}"/>
+            <property name="driverClassName" value="#{db['jdbc.driver']}"/>
+            <property name="username" value="#{db['jdbc.username']}"/>
+            <property name="password" value="#{db['jdbc.password']}"/>
+            <property name="maxActive" value="20"/>
+            <property name="maxIdle" value="10"/>
+            <property name="maxWait" value="-1"/>
+            <property name="validationQuery" value="select 1 from dual"/>
+        </bean>
+
+        <tx:annotation-driven transaction-manager="transactionManager"/>
+
+        <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" name="transactionManager">
+            <property name="dataSource" ref="dataSource"/>
+        </bean>
+
+        <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sessionFactory">
+            <property name="dataSource" ref="dataSource"/>
+            <property name="configLocation" value="classpath:SqlMapConfig.xml"/>
+        </bean>
+
+        <bean class="org.mybatis.spring.SqlSessionTemplate" id="sessionTemplate">
+            <constructor-arg name="sqlSessionFactory" ref="sessionFactory"/>
+        </bean>
+
+</beans>
